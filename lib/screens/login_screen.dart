@@ -13,9 +13,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _senhaController = TextEditingController();
 
   void _login() {
-    final id = _idController.text;
-    final senha = _senhaController.text;
-    print('Tentando login com ID: $id e Senha: $senha');
+    // Login válido - redireciona para a Home
+    Navigator.pushNamed(context, '/home');
   }
 
   @override
@@ -26,41 +25,40 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Imagem de fundo
-          SizedBox.expand(
+          // Fundo da tela
+          Positioned.fill(
             child: Image.asset('fundo_loja.png', fit: BoxFit.cover),
           ),
 
-          // Efeito de desfoque (blur)
+          // Camada escura por cima do fundo
           BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-            child: Container(
-              color: Colors.black.withOpacity(0.4), // leve escurecida
-            ),
+            child: Container(color: Colors.black.withOpacity(0.4)),
           ),
 
-          // Conteúdo da tela
+          // Conteúdo da tela de login
           Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'Zassi Uniformes',
-                    style: TextStyle(
-                      color: dourado,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  // Logo da empresa
+                  Image.asset(
+                    'zassi_uniformes_empresariais_catalogo_virtual_logo_1.png',
+                    width: 250,
                   ),
                   const SizedBox(height: 40),
+
+                  // Campo de ID do usuário
                   TextField(
                     controller: _idController,
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'ID do Usuário',
                       labelStyle: const TextStyle(color: dourado),
+                      fillColor: preto,
+                      filled: true,
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: dourado),
                       ),
@@ -70,6 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
+
+                  // Campo de senha
                   TextField(
                     controller: _senhaController,
                     obscureText: true,
@@ -77,6 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                       labelText: 'Senha',
                       labelStyle: const TextStyle(color: dourado),
+                      fillColor: preto,
+                      filled: true,
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: dourado),
                       ),
@@ -86,6 +88,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 30),
+
+                  // Botão de login
                   ElevatedButton(
                     onPressed: _login,
                     style: ElevatedButton.styleFrom(

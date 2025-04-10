@@ -22,3 +22,17 @@ flutter:
 
 assets:
   - assets/fundo_loja.png
+  - assets/camisa_feminina.png
+  - assets/jaleco_feminina.png
+  - assets/polo_feminina.png
+  - assets/zassi_uniformes_empresariais_catalogo_virtual_logo_1.png
+  - assets/fundo_preto_formas.png
+  - assets/camisa_feminina_imagem_1.png
+  - assets/camisa_feminina_imagem_2.png
+  - assets/camisa_feminina_imagem_3.png
+  - assets/jaleco_feminina_imagem_1.png
+  - assets/jaleco_feminina_imagem_2.png
+  - assets/jaleco_feminina_imagem_3.png
+  - assets/polo_feminina_imagem_1.png
+  - assets/polo_feminina_imagem_2.png
+  - assets/polo_feminina_imagem_3.png
