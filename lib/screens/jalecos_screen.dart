@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/favorito_service.dart';
 
 class JalecosScreen extends StatelessWidget {
   const JalecosScreen({super.key});
@@ -49,27 +50,67 @@ class _ZoomImageCard extends StatefulWidget {
 
 class _ZoomImageCardState extends State<_ZoomImageCard> {
   bool _hovering = false;
+  bool _isFavorito = false;
+  final _favoritoService = FavoritoService();
+
+  @override
+  void initState() {
+    super.initState();
+    _carregarFavorito();
+  }
+
+  void _carregarFavorito() async {
+    final favorito = await _favoritoService.isFavorito(widget.imagePath);
+    setState(() {
+      _isFavorito = favorito;
+    });
+  }
+
+  void _alternarFavorito() async {
+    if (_isFavorito) {
+      await _favoritoService.removerFavorito(widget.imagePath);
+    } else {
+      await _favoritoService.salvarFavorito(widget.imagePath);
+    }
+    _carregarFavorito();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       onEnter: (_) => setState(() => _hovering = true),
       onExit: (_) => setState(() => _hovering = false),
-      child: AnimatedScale(
-        scale: _hovering ? 1.05 : 1.0,
-        duration: const Duration(milliseconds: 200),
-        child: Container(
-          width: 220,
-          height: 330,
-          decoration: BoxDecoration(
-            border: Border.all(color: widget.borderColor, width: 2),
-            borderRadius: BorderRadius.circular(12),
-            image: DecorationImage(
-              image: AssetImage(widget.imagePath),
-              fit: BoxFit.cover,
+      child: Stack(
+        children: [
+          AnimatedScale(
+            scale: _hovering ? 1.05 : 1.0,
+            duration: const Duration(milliseconds: 200),
+            child: Container(
+              width: 220,
+              height: 330,
+              decoration: BoxDecoration(
+                border: Border.all(color: widget.borderColor, width: 2),
+                borderRadius: BorderRadius.circular(12),
+                image: DecorationImage(
+                  image: AssetImage(widget.imagePath),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
-        ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: GestureDetector(
+              onTap: _alternarFavorito,
+              child: Icon(
+                _isFavorito ? Icons.favorite : Icons.favorite_border,
+                color: widget.borderColor,
+                size: 28,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

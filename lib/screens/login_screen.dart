@@ -9,12 +9,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
 
   void _login() {
-    // Login válido - redireciona para a Home
-    Navigator.pushNamed(context, '/home');
+    if (_formKey.currentState!.validate()) {
+      // Se os campos forem válidos, redireciona para a Home
+      Navigator.pushNamed(context, '/home');
+    }
   }
 
   @override
@@ -40,75 +43,90 @@ class _LoginScreenState extends State<LoginScreen> {
           Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Logo da empresa
-                  Image.asset(
-                    'zassi_uniformes_empresariais_catalogo_virtual_logo_1.png',
-                    width: 250,
-                  ),
-                  const SizedBox(height: 40),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Logo da empresa
+                    Image.asset(
+                      'zassi_uniformes_empresariais_catalogo_virtual_logo_1.png',
+                      width: 250,
+                    ),
+                    const SizedBox(height: 40),
 
-                  // Campo de ID do usuário
-                  TextField(
-                    controller: _idController,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      labelText: 'ID do Usuário',
-                      labelStyle: const TextStyle(color: dourado),
-                      fillColor: preto,
-                      filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: dourado),
+                    // Campo de ID do usuário
+                    TextFormField(
+                      controller: _idController,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: 'ID do Usuário',
+                        labelStyle: const TextStyle(color: dourado),
+                        fillColor: preto,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: dourado),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: dourado, width: 2),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: dourado, width: 2),
-                      ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Digite o ID do usuário';
+                        }
+                        return null;
+                      },
                     ),
-                  ),
-                  const SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
-                  // Campo de senha
-                  TextField(
-                    controller: _senhaController,
-                    obscureText: true,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      labelText: 'Senha',
-                      labelStyle: const TextStyle(color: dourado),
-                      fillColor: preto,
-                      filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: dourado),
+                    // Campo de senha
+                    TextFormField(
+                      controller: _senhaController,
+                      obscureText: true,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: 'Senha',
+                        labelStyle: const TextStyle(color: dourado),
+                        fillColor: preto,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: dourado),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: dourado, width: 2),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: dourado, width: 2),
-                      ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Digite a senha';
+                        }
+                        return null;
+                      },
                     ),
-                  ),
-                  const SizedBox(height: 30),
+                    const SizedBox(height: 30),
 
-                  // Botão de login
-                  ElevatedButton(
-                    onPressed: _login,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: dourado,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 15,
+                    // Botão de login
+                    ElevatedButton(
+                      onPressed: _login,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: dourado,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 15,
+                        ),
+                      ),
+                      child: const Text(
+                        'LOGIN',
+                        style: TextStyle(
+                          color: preto,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    child: const Text(
-                      'LOGIN',
-                      style: TextStyle(
-                        color: preto,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
