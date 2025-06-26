@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-
-// 1️⃣ Faz a importação do pacote necessário para abrir links externos como o Google Maps
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart'; // 1️⃣ Importação necessária para abrir links externos
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  // 2️⃣ cria a função que monta a URL do Google Maps
-  //com o endereço da loja e abre no navegador
+  // 2️⃣ Função para abrir a localização da loja no Google Maps
   void abrirLocalizacaoLoja() async {
     final endereco = Uri.encodeComponent(
       'R. Tocantins, 1145 - São Vicente, Pato Branco - PR, 85501-090',
@@ -35,7 +32,8 @@ class HomeScreen extends StatelessWidget {
             child: Container(color: Colors.black.withOpacity(0.4)),
           ),
           Center(
-            child: Padding(
+            // 🔄 Adicionado SingleChildScrollView para evitar overflow e permitir rolagem
+            child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -66,9 +64,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 32),
-
-                  // 3️⃣ cria o botão que, ao ser clicado, chama a função para abrir a localização
-                  // da loja no Google Maps
+                  // 3️⃣ Botão que abre o Google Maps com o endereço da loja
                   ElevatedButton.icon(
                     onPressed: abrirLocalizacaoLoja,
                     icon: const Icon(Icons.location_on),
